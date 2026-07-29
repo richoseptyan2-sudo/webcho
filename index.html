@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+/* ================= VIDEO BACKGROUND ================= */
+
+#bg-video{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-2;
+}
+
+/* Efek gelap di atas video */
+
+.overlay{
+    position:fixed;
+    inset:0;
+
+    background:linear-gradient(
+        rgba(0,0,0,.70),
+        rgba(120,0,0,.45),
+        rgba(255,60,0,.20)
+    );
+
+    z-index:-1;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    width:100%;
+    height:70px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 25px;
+
+    background:rgba(60,0,0,.55);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:2px solid rgba(255,80,0,.6);
+
+    box-shadow:0 0 20px rgba(255,40,0,.5);
+
+    border-bottom:1px solid rgba(255,255,255,.2);
+
+    color:white;
+
+    animation:fadeDown 1s ease;
+}
+.header h1{
+
+    color:#ffffff;
+
+    letter-spacing:3px;
+
+    text-shadow:
+        0 0 8px #ffffff,
+        0 0 18px #ff5500,
+        0 0 35px #ff2200,
+        0 0 60px #ff0000,
+        0 0 90px #990000;
+
+}
+
+/* Ukuran form login lebih kecil */
+.header form{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.header form input[type="text"],
+.header form input[type="password"]{
+    width:150px;
+    padding:8px;
+}
+
+.header form input[type="submit"]{
+    width:80px;
+    padding:8px;
+}
+
+/* ================= FORM DAFTAR ================= */
+
+.right{
+    width:330px;
+    padding:25px;
+
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,0.3);
+    border-radius:20px;
+
+    box-shadow:
+        0 8px 32px rgba(0,0,0,.35),
+        inset 0 0 15px rgba(255,255,255,.15);
+
+    color:white;
+
+    animation:fadeUp 1s ease;
+}
+
+.right h1{
+    font-size:24px;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.right input[type="text"],
+.right input[type="password"],
+.right input[type="date"]{
+    width:100%;
+    padding:8px;
+    margin:6px 0;
+}
+
+.right input[type="submit"]{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    transform:translateY(-4px) scale(1.03);
+    box-shadow:
+        0 0 20px #ff4400,
+        0 0 45px #ff2200;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* ================= CONTENT ================= */
+
+.container{
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    margin-top:50px;
+}
+
+.left{
+    width:45%;
+    text-align:center;
+}
+
+.left img{
+    width:420px;
+    max-width:100%;
+
+    filter:
+        drop-shadow(0 0 15px rgba(255,255,255,.35))
+        drop-shadow(0 0 40px rgba(255,255,255,.2));
+
+    animation:zoomIn 1.2s ease;
+}
+
+.right{
+
+transition:.4s;
+
+}
+
+.right:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+        0 0 30px rgba(255,80,0,.7),
+        0 0 80px rgba(255,0,0,.35);
+
+}
+
+.right h1{
+    margin-bottom:20px;
+}
+
+input[type=submit]{
+
+    background:linear-gradient(
+        180deg,
+        #ff9d00,
+        #ff3c00,
+        #b00000
+    );
+
+    color:white;
+
+    font-weight:bold;
+
+    border:none;
+
+    border-radius:12px;
+
+    transition:.35s;
+
+}
+
+input[type=submit]:hover{
+
+    transform:translateY(-4px) scale(1.03);
+
+    box-shadow:
+        0 0 20px #ff4400,
+        0 0 45px #ff2200;
+
+}
+
+input[type=submit]:hover{
+    background:#145dbf;
+}
+
+label{
+    font-weight:bold;
+}
+
+.radio{
+    margin:10px 0;
+}
+
+input[type=text],
+input[type=password],
+input[type=date]{
+
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+
+    background:rgba(255,255,255,.15);
+    color:white;
+
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:10px;
+
+    outline:none;
+
+    transition:.3s;
+}
+
+input::placeholder{
+    color:#eeeeee;
+}
+
+input:focus{
+
+    border:1px solid #ffffff;
+
+    background:rgba(255,255,255,.25);
+
+    box-shadow:0 0 12px rgba(255,255,255,.4);
+
+}
+
+body{
+
+    animation:fadePage 1s ease;
+
+}
+</style>
+
+<script>
+
+window.onload=function(){
+    document.getElementById("formLogin").reset();
+    document.getElementById("formDaftar").reset();
+}
+
+function login(){
+
+    alert("Login Berhasil");
+
+    document.getElementById("formLogin").reset();
+
+    return false;
+}
+
+function daftar(){
+
+    alert("Pendaftaran Berhasil");
+
+    document.getElementById("formDaftar").reset();
+
+    return false;
+}
+
+function login(){
+
+    let nama = document.querySelector("#formLogin input[type='text']").value.trim();
+    let sandi = document.querySelector("#formLogin input[type='password']").value.trim();
+
+    if(nama === "ghost" && sandi === "rider"){
+
+        alert("Login Berhasil!");
+
+        // Pindah ke halaman HTML buatan sendiri
+        window.location.href = "web1.html";
+
+    }else{
+
+        alert("Nama atau Sandi Salah!");
+
+        document.getElementById("formLogin").reset();
+
+    }
+
+    return false;
+
+    window.onload = function(){
+
+    // Kosongkan form login
+    document.getElementById("formLogin").reset();
+
+    // Kosongkan form daftar
+    document.getElementById("formDaftar").reset();
+
+    // Mencegah browser mengisi otomatis data sebelumnya
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+}
+}
+
+</script>
+
+</head>
+
+<body>
+
+<!-- Video Background -->
+
+<audio autoplay loop>
+    <source src="Christopher Young.mp3" type="audio/mpeg">
+</audio>
+
+<video autoplay muted loop id="bg-video">
+    <source src="Ghost Rider.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<!-- Header -->
+
+<div class="header">
+
+<h1>GHOST RIDER</h1>
+
+<form id="formLogin" onsubmit="return login();">
+
+<input type="text" placeholder="Nama">
+
+<input type="password" placeholder="Sandi">
+
+<input type="submit" value="Login">
+
+</form>
+
+</div>
+
+<!-- Content -->
+
+<div class="container">
+
+<div class="left">
+
+<img src="" alt="">
+
+</div>
+
+<div class="right">
+
+<form id="formDaftar" onsubmit="return daftar();">
+
+<h1>DAFTAR</h1>
+
+<input type="text" placeholder="Nama Depan">
+
+<input type="text" placeholder="Nama Belakang">
+
+<input type="text" placeholder="Nomor HP atau Email">
+
+<input type="password" placeholder="Sandi Baru">
+
+<label>Tanggal Lahir</label>
+
+<input type="date">
+
+<label>Jenis Kelamin</label>
+
+<div class="radio">
+
+<input type="radio" name="jk"> Perempuan
+
+&nbsp;&nbsp;
+
+<input type="radio" name="jk"> Laki-laki
+
+</div>
+
+<input type="submit" value="Daftar">
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>
